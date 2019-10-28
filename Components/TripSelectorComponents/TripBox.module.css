@@ -1,0 +1,99 @@
+.box {
+    display: block;
+    background-color: #FFF;
+    border-radius: 20px;
+    padding: 1em 1.5em 3.5em;
+    margin-bottom: 4em;
+}
+
+.places {
+    display:grid;
+    grid-template-columns: 1fr .1fr 1fr;
+}
+.places > * {
+    display:inline-block;
+    margin: auto 0;
+    box-sizing: border-box;
+}
+
+.places .separator {
+    font-size: 2.2rem;
+    color: #3587A4;
+    text-shadow: rgba(0,0,0,.1) 1px 1px 3px;
+    margin: auto .5em;
+}
+
+
+.tripTypeSelector {
+    margin: 0 0 1em 0;
+    list-style: none;
+}
+
+.tripTypeSelector > *{
+    margin: 0 1.5rem 0 0;
+    font-size: 2.5rem;
+}
+
+.tripTypeButton {
+    color: #c3c3c3;
+    display: inline-block;
+    border-radius: 50%;
+    text-align:center;
+    height: 4rem;
+    width: 4rem;
+}
+.tripTypeButton:hover {
+    cursor: pointer;
+}
+
+.tripTypeButton.selected {
+    color: rgb(252, 252, 252) !important;
+    background-color: #33658A;
+}
+
+.dates {
+    padding:0;
+    display: inline-grid;
+    grid-template-columns: 2fr .1fr 2fr;
+    width:100%;
+}
+
+.dates > * {
+    box-sizing: border-box;
+}
+
+.dates.separator {
+    margin: auto 0;
+}
+
+.dates.separator > * {
+    color: #adadad;
+    margin: 0 .5em;
+    font-size: 1em;
+}
+.infoElement {
+    height:50px;
+}
+
+.submit {
+    align-items: center;
+    bottom: 2em;
+    display: flex;
+    flex-direction: column;
+    left: 0;
+    margin: 0 auto;
+    position: absolute;
+    right: 0;
+}
+
+.submit .button{
+    height: 50px;
+    background-color: #2e81c1;
+    border-color: #3f8bc5;
+    border-radius: 200px;
+}
+
+.submit .button:hover{
+    background-color: #3f8bc5;
+    border-color: #3f8bc5;
+}

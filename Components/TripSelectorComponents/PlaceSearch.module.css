@@ -1,0 +1,68 @@
+.container{
+    height:38px;
+    display: inline-block;
+}
+.input {
+    margin: 0;
+    min-width:50%;
+    outline: none;
+}
+
+.input[contentEditable]:empty:before {
+    content: 'Search for a place...';
+}
+
+.input.highlight {
+    font-weight: bold;
+    color: #3487a4;
+}
+.edit {
+    color: #949494;
+    display:none;
+}
+
+.box {
+    background-color:#FFF;
+    padding: 0 .5em;
+    height:100%;
+    width: 200px;
+    display:grid;
+    align-items: center;
+    grid-template-columns: 1fr .1fr;
+    cursor: pointer;
+    box-sizing: border-box;
+    border: 1px solid #bbb;
+    border-radius: 3px;
+}
+
+.results {
+    position: absolute;
+    background-color: #f9f9f9;
+    z-index: 9999;
+    list-style:none;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    max-width:80vw;
+    top:auto;
+    left:auto;
+}
+
+.element {
+    padding: .5em;
+    margin: 0;
+}
+
+.element:hover {
+    background-color:#f1f0f0;
+    cursor: pointer;
+}
+
+.element .name {
+    font-weight:bold;
+    color: #33658A;
+}
+.element .detailedName {
+    font-size: .7em;
+    color:#868686;
+    white-space:normal;
+}

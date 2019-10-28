@@ -1,0 +1,58 @@
+.dateSelector {
+    position:relative;
+    display: inline-grid;
+    grid-template-columns: .2fr 1fr;
+    height: 100%;
+    padding: 0 1rem;
+    margin: 0;
+    background-color: #f9f9f9;
+    border-radius: .5rem;
+    border: 1px solid #e9e9e9;
+    outline:none !important;
+}
+
+.dateSelector > * {
+    display: inline-block;
+    margin: auto .5rem auto 0;
+}
+
+.dateSelector i {
+    color: #949494;
+}
+
+.dateSelector:hover {
+    background-color: #f7f7f7;
+    cursor: pointer;
+}
+.date {
+    width:auto;
+    height:auto;
+}
+
+.date > * {
+    display:block;
+    width:100%;
+}
+.date .day {
+    color: #3487a4;
+    font-weight: bold;
+}
+
+.date .time {
+    color: #9c9c9c;
+    font-size:.75em;
+    padding: 0 0 0 .2em;
+}
+
+
+.input {
+    opacity: 0;
+    position:absolute;
+    width:50%;
+    height:125% !important;
+    top: -12.5%;
+}
+
+.input .container {
+    height:0;
+}

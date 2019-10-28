@@ -1,0 +1,39 @@
+.tripTimeline {
+    /*&:before {
+        content: '';
+        position: absolute;
+        z-index:-1;
+        top: 0;
+        left: 2rem;
+        height: 100%;
+        width: 4px;
+        background: grey;
+    }*/
+}
+
+.dayMarker {
+    width: 100%;
+    position:relative;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+
+    .day{
+        &:before{
+            border-top: 2px solid #dfdfdf;
+            content:"";
+            margin: 0 auto; // Center line vertically
+            position: absolute; // Position in parent must be relative
+            top: 50%; left: 0; right: 0; bottom: 0;
+            width: 100%;
+            z-index: -1;
+        }
+
+        padding: 0 .5em 0 .5em;
+        background-color:#f9f9f9;
+        text-transform: uppercase;
+        font-size: 1.5em;
+        color: #909090;
+        text-shadow: 0px 1px 2px rgb(230, 230, 230);
+    }
+}
