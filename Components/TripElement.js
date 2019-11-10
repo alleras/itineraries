@@ -8,6 +8,7 @@ import flatpickr from 'flatpickr'
 
 import style from './TripElement.module.scss'
 
+
 // FIXME: Refactor to more usable component
 const TripElement = (props) => {
     const trip = props.trip
@@ -17,43 +18,84 @@ const TripElement = (props) => {
 
     // FIXME: Fix this convoluted process of getting the icon or text of a tripType
     let iconClass = `fas ${tripTypes.filter((element) => element.id === trip.selectedTripType)[0].icon}`
+    
     return (
-        <div class={style.tripElement}>
+        <div class={`${style.tripElement} ${trip.to ? style.withLine : null}`}>
           {/*<div class={style.tripIconContainer}>
             <i class={iconClass}></i>
           </div>*/}
-
-          <div class={`${style.tripFragment} ${trip.to? style.withLine : null}`}>
+          {/* Departure */}
+          <div class={`${style.tripFragment}`}>
             <div class={style.tripIconContainer}>
               <i class='fas fa-circle-notch'></i>
             </div>
-
             <div class={style.info}>
-              <big>{trip.from.detailedName}</big>
-              <span>
-                Departure: {trip.departure.toDateString()} {trip.departure.toLocaleTimeString()}
-              </span>
+              <div class={style.mainPanel}>
+                <div class={style.legName}>
+                  {/* TODO: Make a util method to get the detailedName without the placeName on it */ }
+                  <big>{trip.from.placeName}</big>
+                  <small>{trip.from.detailedName}</small>
+                </div>
+              </div>
+
+              <div class={style.secPanel}>
+                {/* TODO: Select the correct style of icon */ }
+                <div class={style.tripInfo}>
+                  <span class={style.icon}><i class={`fas fa-plane-departure`}></i> {trip.departure.toDateString()}</span>
+                  <span class={style.icon}><i class={`far fa-clock`}></i> {trip.departure.toLocaleTimeString()}</span>
+                </div>
+
+                <div class={style.utilButton}>
+                  <span onClick={console.log('beep')}>
+                    <i class="fas fa-comment"></i>
+                  </span>
+                  <span onClick={console.log('beep')}>
+                    <i class="far fa-edit"></i>
+                  </span>
+                  <span onClick={console.log('beep')}>
+                    <i class="fas fa-trash"></i>
+                  </span>
+                </div>
+              </div>
             </div>
-
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-
           </div>
                    
+          {/* Arrival */}
           <div class={`${style.tripFragment}`}>
-            <div class={`${style.tripIconContainer} ${style.icon}`}>
-              <i class='fas fa-map-marker-alt'></i>
+            <div class={style.tripIconContainer}>
+              <i class='fas fa-circle-notch'></i>
             </div>
             <div class={style.info}>
-              <big>{trip.to.detailedName}</big>
-              {trip.arrival && (
-                <span>
-                  Arrival: {trip.arrival.toDateString()} {trip.arrival.toLocaleTimeString()}
-                </span>
-              )}
+              <div class={style.mainPanel}>
+                <div class={style.legName}>
+                  {/* TODO: Make a util method to get the detailedName without the placeName on it */ }
+                  <big>{trip.to.placeName}</big>
+                  <small>{trip.to.detailedName}</small>
+                </div>
+              </div>
+
+              <div class={style.secPanel}>
+                {/* TODO: Select the correct style of icon */ }
+                {trip.arrival && (
+                <div class={style.tripInfo}>
+                <span class={style.icon}><i class={`fas fa-plane-arrival`}></i> {trip.arrival.toDateString()}</span>
+                <span class={style.icon}><i class={`far fa-clock`}></i> {trip.arrival.toLocaleTimeString()}</span>
+                </div>
+                )}
+                
+
+                <div class={style.utilButton}>
+                  <span onClick={console.log('beep')}>
+                    <i class="fas fa-comment"></i>
+                  </span>
+                  <span onClick={console.log('beep')}>
+                    <i class="far fa-edit"></i>
+                  </span>
+                  <span onClick={console.log('beep')}>
+                    <i class="fas fa-trash"></i>
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -93,4 +135,4 @@ const TripElement = (props) => {
     )
 }
 
-export default TripElement
+export default TripElement                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   

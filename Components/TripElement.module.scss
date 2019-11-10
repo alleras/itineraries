@@ -1,37 +1,128 @@
-.tripIconContainer {
-    color: rgb(252, 252, 252) !important;
-    background-color: #33658A;
-    display: inline-block;
-    border-radius: 50%;
-    text-align:center;
-    height: 25px;
-    width: 25px;
-    font-size: 1.6rem;
-    margin: 0 .5em 0 0;
-}
 
-.withLine {
-    &:after {
-        content: '';
-        position: absolute;
-        z-index: -1;
-        top: 0;
-        left: .7em;
-        height: 101%;
-        width: 4px;
-        background: #33658A;
+.withLine {    
+    & > :first-child {
+        &:after {
+            content: '';
+            position: absolute;
+            z-index: -1;
+            top: 50%;
+            left: .7em;
+            height: calc(50% + 30px);
+            width: 4px;
+            background: #33658A;
+        }
     }
-}
-.tripFragment {
-    display: flex;
-    position: relative;    
+
+    & > :last-child {
+        &:after {
+            content: '';
+            position: absolute;
+            z-index: -1;
+            top: 0%;
+            left: .7em;
+            height: 50%;
+            width: 4px;
+            background: #33658A;
+        }
+    }
+
 }
 
 .tripElement {
-    margin: 2.5rem 0 2.5rem 1.5rem;
+    padding: 2.5rem 1.5rem 2.5rem 1.5rem;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.02) 50%, rgba(0, 0, 0, 0) 100%);
+    border: 2px solid rgba(0,0,0,.02);
+    border-width: 2px 0;
+    /* border-radius: 5px; */
     position: relative;
 
-    .info {
+    .timeIndicator {
+        display: block;
+        background-color: #e6e6e6;
+        width: 8rem;
+        height: 100%;
+        margin-right: 10px;
+    }
+
+    .tripFragment {
+        display: grid;
+        position: relative;   
+        margin: 0 0 30px 0; 
+        align-items: center;
+        /* GRID */
+        grid-auto-columns: auto;
+        grid-auto-flow: column;
+    }
+
+    .tripIconContainer {
+        color: rgb(252, 252, 252) !important;
+        background-color: #33658A;
         display: inline-block;
+        border-radius: 50%;
+        text-align:center;
+        height: 25px;
+        width: 25px;
+        font-size: 1.6rem;
+        margin: 0 .5em 0 0;
+    }
+
+    .info {
+        display: grid; 
+        grid-template-columns: 2fr 1fr; 
+        grid-template-rows: 1fr; 
+        grid-column-gap: 20px;
+        grid-row-gap: 0px; 
+        width: 100%;
+        background-color: white;
+        border: 1px solid #efefef;
+        border-radius: 10px;
+        padding: 10px;
+        box-shadow: 0 2px 6px 0 rgba(0,0,0,.03);
+
+        .mainPanel {
+
+        }
+
+        .secPanel {
+            display:flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+
+            > * {
+                display: inline-block;
+            }
+
+            .icon {
+                font-size: .8em;
+                color: #c2c2c2;
+                margin: 0 5px 0 0;
+            }
+
+            .utilButton {
+                span {
+                    cursor: pointer;
+                    color: #2d81c0;
+                    font-size: 0.9em;
+                    margin: 0 3px;
+                }
+            }
+
+            .tripInfo {
+                display:flex;
+                justify-content: flex-end;
+                flex-basis: 100%;
+            }
+        }
+
+        .legName {
+            > * {
+                display: block;
+            }
+
+            > small {
+                color: #909090;
+            }
+        }
     }
 }
