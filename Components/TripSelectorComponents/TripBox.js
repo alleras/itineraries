@@ -4,6 +4,7 @@ import DateSelector from '../DateSelector'
 import {tripTypes} from '../../config'
 import style from './TripBox.module.css'
 import placeSearchStyle from './TripBox_PlaceSearch.module.css'
+import nestedUpdate from '../../Util/nestedUpdate'
 
 // TODO: Validate input
 // TODO: Style
@@ -19,10 +20,18 @@ class TripBox extends React.Component {
 
         this.state = {
             tripTypes: tripTypes,
-            from: null,
-            to: null,
-            departure: new Date(),
-            arrival: new Date(),
+            departure: {
+                date: new Date(), 
+                place: null,
+                nested: {
+                    a: 1,
+                    b: 2,
+                }
+            },
+            arrival: {
+                date: new Date(), 
+                place: null
+            },
             stops: [],
             comment: '',
             selectedTripType: 0,
@@ -38,7 +47,7 @@ class TripBox extends React.Component {
         }
     }
 
-    // TODO: Check for incomplete data and post a warning if it is.
+    // TODO: Form validation
     processTrip = () => {
         // TODO: Even though we are handling data in an inmutable way in this component, the variables that are being sent to the
         // parent component are a reference, not a clone. Fix that.
@@ -48,7 +57,9 @@ class TripBox extends React.Component {
 
     selectTripType = (id) => this.setState({selectedTripType: id})
 
-    updateProvider = (property) => (value) => this.setState({[property]: value})
+    updateNestedState = path => value => {
+        this.setState(prevState => nestedUpdate(path, value)(prevState))
+    }
 
     render() {
         let state = this.state
@@ -75,11 +86,11 @@ class TripBox extends React.Component {
                     <div class='six columns' style={{'margin-bottom': '1em'}}>
                         <label>Where to?</label>
                         <div className={`${style.places} ${style.infoElement}`}>
-                            <StyledPlaceSearch update={this.updateProvider('from')}></StyledPlaceSearch>
+                            <StyledPlaceSearch update={this.updateNestedState('departure.place')} ></StyledPlaceSearch>
                             <div className={`${style.places} ${style.separator}`}>
                                 <i class="fas fa-long-arrow-alt-right" />
                             </div>
-                            <StyledPlaceSearch update={this.updateProvider('to')}></StyledPlaceSearch>
+                            <StyledPlaceSearch update={this.updateNestedState('arrival.place')} ></StyledPlaceSearch>
                         </div>
                     </div>
 
@@ -88,7 +99,7 @@ class TripBox extends React.Component {
                         <div className={`${style.dates} ${style.infoElement}`}>
                             
                             <this.SelectorWithOptions config={{
-                                onChange: (val) => this.setState({departure: val[0]}),
+                                onChange: (val) => this.updateNestedState('departure.date')(val[0]),
                             }}/>
 
                             {requiresReturn && 
@@ -97,7 +108,7 @@ class TripBox extends React.Component {
                                         <i class="fas fa-chevron-right"></i>
                                     </div>
                                     <this.SelectorWithOptions config={{
-                                        onChange: (val) => this.setState({arrival: val[0]}),
+                                        onChange: (val) => this.updateNestedState('arrival.date')(val[0]),
                                         defaultDate: new Date().setDate(new Date().getDate() + 6),
 
                                     }}/>

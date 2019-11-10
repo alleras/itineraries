@@ -64,6 +64,7 @@ class PlaceSearch extends React.Component {
     this.setState({searchTerm: e.target.textContent, selectedCity: null})
   }
 
+  // FIXME: Change update the city when selectedCity changes, not only when it's submitted.
   submitCity = (city) => {
     this.props.update(city)
     this.setState({selectedCity: city.placeName, cityList: null, searchTerm: null})
