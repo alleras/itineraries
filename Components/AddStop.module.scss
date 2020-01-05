@@ -1,0 +1,42 @@
+.addStop {
+  padding: 5px 10px;
+  margin-left: -10px;
+
+  &.active {
+    border: 1px solid #dedede;
+    border-radius: 5px;
+    background-color: #e4e4e4;
+    display: inline-block;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+
+    .addStopButton{
+      color: #777777;
+    }
+  }
+
+  .addStopButton {
+    border: none;
+    text-transform: none;
+    align-items: center;
+    flex-direction: row;
+    display: inline-flex;
+    font-size: .9em;
+    font-weight: bold;
+    letter-spacing: unset;
+    color: #b7b7b7;
+    text-shadow: -1px 1px 0px #ffffff;
+    padding: 0;
+    margin: 10px 0;
+    cursor: pointer;
+
+    &:hover {
+      color: #777777;  
+    }
+
+    i {
+        $iconFont: 20px;
+        font-size: $iconFont;
+        margin-right: $iconFont / 2;   
+    }
+  }
+}

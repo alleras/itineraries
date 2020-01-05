@@ -5,10 +5,10 @@ import {tripTypes} from '../../config'
 import style from './TripBox.module.css'
 import placeSearchStyle from './TripBox_PlaceSearch.module.css'
 import nestedUpdate from '../../Util/nestedUpdate'
+var cloneDeep = require('lodash/cloneDeep');
+
 
 // TODO: Validate input
-// TODO: Style
-
 
 const StyledPlaceSearch = function(props) {
     return <PlaceSearch {...props} style={placeSearchStyle}></PlaceSearch>
@@ -20,42 +20,86 @@ class TripBox extends React.Component {
 
         this.state = {
             tripTypes: tripTypes,
+            showErrors: false,
             departure: {
                 date: new Date(), 
                 place: null,
-                nested: {
-                    a: 1,
-                    b: 2,
-                }
+                comment: '',
             },
             arrival: {
-                date: new Date(), 
-                place: null
+                date: null, 
+                place: null,
+                comment: '',
             },
             stops: [],
-            comment: '',
             selectedTripType: 0,
         }
 
+        this.initialState = cloneDeep(this.state)
+
         this.SelectorWithOptions = function(props) {
-            return <DateSelector config={{
+            return <DateSelector 
+                date={props.date}
+                config={{
                 dateFormat: "D d F h:i K",
                 enableTime: true,
                 defaultDate: new Date(),
+                onChange: props.updater,
+                onReady: props.updater,
                 ...props.config
             }}/>
         }
     }
 
-    // TODO: Form validation
     processTrip = () => {
-        // TODO: Even though we are handling data in an inmutable way in this component, the variables that are being sent to the
-        // parent component are a reference, not a clone. Fix that.
-        let {tripTypes, ...tripInfo} = this.state
+        // TODO: Change to a warning
+        if(this.validateTrip(this.state) !== true){
+            this.setState({showErrors: true})
+            return false
+        }
+
+        let {tripTypes, showErrors, ...tripInfo} = cloneDeep(this.state)
         this.props.processTrip(tripInfo)
+        this.setState(cloneDeep(this.initialState))
+    }
+    
+    validateTrip = (trip = false) => {
+
+        if(trip === false)
+            return false
+        
+        // Arrival shouldn't happen before departure  -- DONE
+        // Arrival and departure dates shouldn't overlap with any of the other trips
+        // Departure and arrival places are required -- DONE
+        // Departure and arrival dates are required -- DONE
+
+        let departure = trip.departure
+        let arrival = trip.arrival
+        let errors = {}
+        
+        errors.departurePlace = !departure.place ? 'A destination is required.' : ''
+        errors.arrivalPlace = !arrival.place ? 'An origin is required.' : ''
+        errors.departureDate = !departure.date ?  'Departure date is required.' : ''
+        errors.general = 
+            (new Date(departure.date) > new Date(arrival.date) 
+            ? 'The arrival date shouldn\'t be set before departure.' : '')
+            ||
+            (!departure.place 
+            ? 'Test error' : '')
+
+        // We check that all the error properties are empty strings, if they are,
+        // the form is validated. 
+        // If not, the errors object is returned
+        return Object.keys(errors).every((key) => errors[key].length <= 0) || errors
     }
 
-    selectTripType = (id) => this.setState({selectedTripType: id})
+    selectTripType = (id) => {
+        let requiresReturn = this.state.tripTypes.find(tripType => id === tripType.id).requiresReturn
+        if(!requiresReturn){
+            this.updateNestedState('arrival.date')(null)
+        }
+        this.setState({selectedTripType: id})
+    }
 
     updateNestedState = path => value => {
         this.setState(prevState => nestedUpdate(path, value)(prevState))
@@ -64,7 +108,8 @@ class TripBox extends React.Component {
     render() {
         let state = this.state
         /* We filter out the selected trip and then check if it requires a return in order to show the 'Arriving' part */
-        let requiresReturn = state.tripTypes.filter(tripType => state.selectedTripType === tripType.id)[0].requiresReturn
+        let requiresReturn = state.tripTypes.find(tripType => state.selectedTripType === tripType.id).requiresReturn
+        let error = this.validateTrip(state)
 
         return(
             <div className={`${style.box} shadowedBox`}>
@@ -81,7 +126,17 @@ class TripBox extends React.Component {
                         )
                     })}
                 </ul>
+                {/* FIXME: Show errors on the respective fields */}
+                {this.state.showErrors && (
+                <div class={style.error}>
+                    <>{error.departurePlace}</>
+                    <>{error.arrivalPlace}</>
+                    <>{error.departureDate}</>
+                    <>{error.general}</>
+                </div>
+                )}
                 {/* TODO: Ditch the row and six columns */}
+                {/* FIXME: TODO: Bind PlaceSearch to the state so that when a trip is added, it resets */}
                 <div className={`row`}>
                     <div class='six columns' style={{'margin-bottom': '1em'}}>
                         <label>Where to?</label>
@@ -98,19 +153,22 @@ class TripBox extends React.Component {
                         <label>When?</label>
                         <div className={`${style.dates} ${style.infoElement}`}>
                             
-                            <this.SelectorWithOptions config={{
-                                onChange: (val) => this.updateNestedState('departure.date')(val[0]),
-                            }}/>
+                            <this.SelectorWithOptions
+                            date={this.state.departure.date} 
+                            updater={
+                                (val) => this.updateNestedState('departure.date')(val[0])
+                            }/>
 
                             {requiresReturn && 
                                 <React.Fragment>
                                     <div className={`${style.dates} ${style.separator}`}>
                                         <i class="fas fa-chevron-right"></i>
                                     </div>
-                                    <this.SelectorWithOptions config={{
-                                        onChange: (val) => this.updateNestedState('arrival.date')(val[0]),
-                                        defaultDate: new Date().setDate(new Date().getDate() + 6),
-
+                                    <this.SelectorWithOptions
+                                    date={this.state.arrival.date} 
+                                    updater={(val) => this.updateNestedState('arrival.date')(val[0])}
+                                    config={{
+                                        defaultDate: null,
                                     }}/>
                                 </React.Fragment>
                             }

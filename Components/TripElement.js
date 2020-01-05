@@ -1,136 +1,120 @@
-import React from 'react'
+import React, {useState} from 'react'
 // Components
 import AddStop from './AddStop'
 // Util
 import shortid from 'shortid'
 import {tripTypes} from '../config'
-import flatpickr from 'flatpickr'
 
 import style from './TripElement.module.scss'
 
+        
+const TripFragment = ({id, leg, icon, tripActions, legName, children}) => {
+  let [comment, setComment] = useState(leg.comment)
+  let [commentFlag, setFlag] = useState(false)
+
+  const processComment = (text) => {
+    tripActions.modifyComment(id, legName)(text)
+    return setFlag(text.length === 0 ? false : commentFlag)
+  }
+
+  const commentChange = (e) => {
+    return setComment(e.target.value)
+  }
+
+  return (
+    <div class={`${style.tripFragment}`}>
+      <div class={style.info}>
+        <div class={style.mainPanel}>
+
+          <div class={style.tripIconContainer}>
+            <i class={icon}></i>
+          </div>
+
+          <div class={style.legName}>
+            {/* TODO: Make a util method to get the detailedName without the placeName on it */ }
+            <big>{leg.place.placeName}</big>
+            <small>{leg.place.detailedName}</small>
+          </div>
+        </div>
+
+        <div class={style.secPanel}>
+          {leg.date && (
+          <div class={style.tripInfo}>
+          <span class={style.icon}> {leg.date.toDateString()}</span>
+          </div>
+          )}
+          
+
+          <div class={style.utilButton}>
+            <span onClick={() => setFlag(!commentFlag)}>
+              <i class="fas fa-comment"></i> Comment
+            </span>
+            <span onClick={() => tripActions.deleteTrip(id)}>
+              <i class="fas fa-trash"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class={style.comment} style={{display: (leg.comment.length <= 0 && !commentFlag) ? 'none' : 'inherit'}}>
+          {commentFlag ? (
+              <input type="text" 
+                     onBlur={() => processComment(comment)}
+                     onChange={commentChange}
+                     placeholder={'Insert your comment here'} 
+                     value={comment} />
+          ) : (
+            leg.comment
+          )}
+        </div>
+      </div>
+      {children}
+    </div>
+  )
+}
 
 // FIXME: Refactor to more usable component
-const TripElement = (props) => {
-    const trip = props.trip
-    const tripDispatcher = props.dispatcher
+const TripElement = ({trip, actions, children}) => {
 
     let tripTypeText = tripTypes.filter((element) => element.id === trip.selectedTripType)[0].type
 
     // FIXME: Fix this convoluted process of getting the icon or text of a tripType
     let iconClass = `fas ${tripTypes.filter((element) => element.id === trip.selectedTripType)[0].icon}`
-    
-    return (
-        <div class={`${style.tripElement} ${trip.to ? style.withLine : null}`}>
-          {/*<div class={style.tripIconContainer}>
-            <i class={iconClass}></i>
-          </div>*/}
+        
+    const TripFragmentWithInfo = (props) => (
+      <TripFragment id={trip.id} icon={iconClass} tripActions={actions} {...props} >
+        {children}
+      </TripFragment>
+    )
+      return (
+        <div class={`${style.tripElement}`}>
+
           {/* Departure */}
-          <div class={`${style.tripFragment}`}>
-            <div class={style.tripIconContainer}>
-              <i class='fas fa-circle-notch'></i>
-            </div>
-            <div class={style.info}>
-              <div class={style.mainPanel}>
-                <div class={style.legName}>
-                  {/* TODO: Make a util method to get the detailedName without the placeName on it */ }
-                  <big>{trip.from.placeName}</big>
-                  <small>{trip.from.detailedName}</small>
-                </div>
-              </div>
+          <TripFragmentWithInfo leg={trip.departure} legName='departure'>
+            {children}
+          </TripFragmentWithInfo>   
 
-              <div class={style.secPanel}>
-                {/* TODO: Select the correct style of icon */ }
-                <div class={style.tripInfo}>
-                  <span class={style.icon}><i class={`fas fa-plane-departure`}></i> {trip.departure.toDateString()}</span>
-                  <span class={style.icon}><i class={`far fa-clock`}></i> {trip.departure.toLocaleTimeString()}</span>
+          {trip.selectedTripType === 3 && (    
+          <div class={style.stopList}>
+            {trip.stops.length > 0 && 
+              trip.stops.map(stop => (
+                <div key={shortid.generate()} class={style.stop}>
+                  <i class="fas fa-map-marker-alt"></i> 
+                  <b>{stop.placeName}</b>
+                  <div class={style.stopSubText}>
+                    <small>{stop.detailedName}</small>
+                  </div>
                 </div>
+              ))
+            }
 
-                <div class={style.utilButton}>
-                  <span onClick={console.log('beep')}>
-                    <i class="fas fa-comment"></i>
-                  </span>
-                  <span onClick={console.log('beep')}>
-                    <i class="far fa-edit"></i>
-                  </span>
-                  <span onClick={console.log('beep')}>
-                    <i class="fas fa-trash"></i>
-                  </span>
-                </div>
-              </div>
-            </div>
+            <AddStop handleAdd={actions.addStop(trip.id)} />
           </div>
-                   
-          {/* Arrival */}
-          <div class={`${style.tripFragment}`}>
-            <div class={style.tripIconContainer}>
-              <i class='fas fa-circle-notch'></i>
-            </div>
-            <div class={style.info}>
-              <div class={style.mainPanel}>
-                <div class={style.legName}>
-                  {/* TODO: Make a util method to get the detailedName without the placeName on it */ }
-                  <big>{trip.to.placeName}</big>
-                  <small>{trip.to.detailedName}</small>
-                </div>
-              </div>
-
-              <div class={style.secPanel}>
-                {/* TODO: Select the correct style of icon */ }
-                {trip.arrival && (
-                <div class={style.tripInfo}>
-                <span class={style.icon}><i class={`fas fa-plane-arrival`}></i> {trip.arrival.toDateString()}</span>
-                <span class={style.icon}><i class={`far fa-clock`}></i> {trip.arrival.toLocaleTimeString()}</span>
-                </div>
-                )}
-                
-
-                <div class={style.utilButton}>
-                  <span onClick={console.log('beep')}>
-                    <i class="fas fa-comment"></i>
-                  </span>
-                  <span onClick={console.log('beep')}>
-                    <i class="far fa-edit"></i>
-                  </span>
-                  <span onClick={console.log('beep')}>
-                    <i class="fas fa-trash"></i>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/*(<div>
-            <h3>{trip.from.detailedName}</h3>
-            <span>
-              Departure: {trip.departure.toDateString()} {trip.departure.toLocaleTimeString()} <b>{tripTypeText}</b>
-            </span>
-          </div>
-
-          <div>
-            {trip.comment.length > 0 ? (
-              trip.comment
-            ) : (
-              <input type="text" onBlur={(e) => tripDispatcher.modifyComment(trip.id)(e.target.value)}></input>
-            )}
-          </div>
-  
-          {trip.stops.length > 0 &&
-            trip.stops.map(stop => <div key={shortid.generate()}>{stop.detailedName}</div>)
-          }
-
-          {trip.arrival && (
-            <div>
-              <h3>{trip.to.detailedName}</h3>
-              <span>Arrival: {trip.arrival.toDateString()} {trip.arrival.toLocaleTimeString()} </span>
-            </div>
           )}
-  
-          <button onClick={() => tripDispatcher.deleteTrip(trip.id)}>Delete</button>
-  
-          {trip.selectedTripType === 3 &&
-            <AddStop id={trip.id} handleAdd={tripDispatcher.addStop} />
-          }
-        <hr></hr> )*/}
+          
+          {/* Arrival */}
+          {trip.arrival && (
+            <TripFragmentWithInfo leg={trip.arrival} legName='arrival' />
+          )}
         </div>
     )
 }

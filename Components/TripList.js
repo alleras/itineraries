@@ -13,6 +13,29 @@ const DayMarker = (props) => {
         </div>
     )
 }
+
+const TimeInterval = (props) => {
+    var addOne = false
+
+    if(props.arrival) {
+        let interval = props.arrival.getTime() - props.departure.getTime()
+        if (interval < 172800000 && props.arrival.getDate() === props.departure.getDate() + 1)
+            addOne = true
+    }
+
+    return (
+        <div class={style.timeInterval}>
+            <div class={style.time}>
+                {flatpickr.formatDate(props.departure, 'h:i K')}
+            </div>
+            <div class={style.bar}></div>
+            <div class={style.time}>
+                {addOne ? <span class={style.addOne}>+1</span> : null} 
+                {props.arrival ? flatpickr.formatDate(props.arrival, 'h:i K') : <span style={{'text-transform': 'none'}}>No ETA</span> }
+            </div>
+        </div>
+    )
+}
 const TripList = (props) => {
 
     const generateList = (tripList) => {
@@ -20,7 +43,7 @@ const TripList = (props) => {
 
         // TODO: COMMENT ME!
         return tripList.map((tripElement) => {
-            let date = tripElement.departure
+            let date = tripElement.departure.date
             let day = new Date(date.getFullYear(),date.getMonth() , date.getDate())
             let render = false
 
@@ -33,7 +56,14 @@ const TripList = (props) => {
             return (
                 <>
                     {render && <DayMarker day={currentDay} />}
-                    <TripElement trip={tripElement} /*dispatcher={contextProperties.dispatcher}*/ />
+                    <div class={style.tripSuperContainer}>
+                        <TimeInterval departure={tripElement.departure.date} arrival={tripElement.arrival.date}/>
+                        <TripElement trip={tripElement} actions={props.actions}>
+                            {/*<>
+                            Test
+                            </>*/}
+                        </TripElement>
+                    </div>
                 </>
             )
         })
@@ -42,7 +72,6 @@ const TripList = (props) => {
     return (
         <div class={style.tripTimeline}>
             {generateList(props.tripList)}
-            {/*props.children*/}
         </div>
     )
 }

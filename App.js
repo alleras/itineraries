@@ -2,6 +2,7 @@ import React, {useState, useReducer, useEffect} from 'react'
 // Utils
 import {sampleTrips} from './config'
 import shortid from 'shortid'
+import nestedUpdate from './Util/nestedUpdate'
 // Components
 import TripBox from './Components/TripSelectorComponents/TripBox'
 import TripList from './Components/TripList'
@@ -11,11 +12,15 @@ import {TripListContext} from './Components/TripListContext'
 // CSS
 import './index.css'
 
-function tripsReducer(state, action) {
+var cloneDeep = require('lodash/cloneDeep')
+
+
+function tripsReducer(state = [], action) {
+
   const sortTripsByDate = (trips) => {
     return trips.sort((a,b) => {
-      let date1 = new Date(a.departure)
-      let date2 = new Date(b.departure)
+      let date1 = new Date(a.departure.date)
+      let date2 = new Date(b.departure.date)
       
       if (date1 === date2) {
         return 0;
@@ -28,18 +33,19 @@ function tripsReducer(state, action) {
 
   // Reducer
   switch(action.type) {
-    case 'add': {
+    case 'ADD_TRIP': {
+      // Trip state structure is shown on TripSelectorComponents/TripBox.js
       let tripWithID = {...action.trip, id: shortid.generate()}
       return sortTripsByDate([...state, tripWithID]) 
     }
-    case 'delete': {
+    case 'DELETE_TRIP': {
       return state.filter(trip => trip.id !== action.tripID)
     }
-    case 'addStop': {
+    case 'ADD_STOP': {
       return state.map(trip => {
         if(trip.id === action.tripID) {
           // Create a new trip element without the stops
-          const {stops, ...newTrip} = trip
+          const {stops, ...newTrip} = cloneDeep(trip)
           // Then add the stops to the previous trip element and incorporate it to the new one
           newTrip.stops = trip.stops.concat(action.stopInfo)
           
@@ -48,12 +54,10 @@ function tripsReducer(state, action) {
         return trip
       })
     }
-    case 'changeTripProperty': {
+    case 'MODIFY_COMMENT': {
       return state.map(trip => {
         if(trip.id === action.tripID){
-          const newTrip = {...trip}
-          newTrip[action.property] = action.value
-          return newTrip
+          return legReducer(trip, action)
         }
         return trip
       })
@@ -64,25 +68,44 @@ function tripsReducer(state, action) {
   }
 }
 
-export default (initialTripList) => {
+function legReducer(state = [], action) {
+  switch(action.type) {
+    case 'MODIFY_COMMENT': {
+      if(state[action.leg]){
+        return {
+          ...state,
+          [action.leg]: {
+            ...state[action.leg],
+            comment: action.comment
+          }
+        }
+      }
+      return state
+    }
+    case 'MODIFY_DATE': {
+      return state
+    }
+    default: {
+      return state
+    }
+  }
+}
+
+
+export default () => {
   // Setting state
   // TODO: Make places information source of info be the API (For placeNames, etc), using only the id to store in db.
   const [trips, dispatchTrips] = useReducer(tripsReducer, sampleTrips)
 
   // Context settings
-  const contextProperties = {
+  const tripContext = {
     // Context state
     trips: trips, 
     // Context actions
-    dispatcher: {
-      addStop: (id) => (stop) => dispatchTrips({type: 'addStop', tripID: id, stopInfo: stop}), 
-      deleteTrip: (id) => dispatchTrips({type: 'delete', tripID: id}),
-      modifyComment: (id) => (comment) => dispatchTrips({
-        type: 'changeTripProperty', 
-        property: 'comment', 
-        tripID: id,
-        value: comment
-      })
+    actions: {
+      addStop: (id) => (stop) => dispatchTrips({type: 'ADD_STOP', tripID: id, stopInfo: stop}), 
+      deleteTrip: (id) => dispatchTrips({type: 'DELETE_TRIP', tripID: id}),
+      modifyComment: (id, leg) => comment => dispatchTrips({type: 'MODIFY_COMMENT', tripID: id, leg: leg, comment: comment})
     }
   }
 
@@ -103,7 +126,11 @@ export default (initialTripList) => {
       
       <div class='row'>
         <div class='container'>
-          <TripBox processTrip={(tripInfo) => dispatchTrips({type: 'add', trip: tripInfo})}></TripBox>
+          <TripBox 
+          tripList={trips}
+          processTrip={(tripInfo) => {
+            dispatchTrips({type: 'ADD_TRIP', trip: tripInfo})
+          }}></TripBox>
         </div>
       </div>
 
@@ -111,13 +138,7 @@ export default (initialTripList) => {
       </div>
 
       <div class='container'>
-        <TripListContext.Provider value={contextProperties}>
-          <TripList tripList={contextProperties.trips}>
-            {contextProperties.trips.map(
-              (tripEl) => <TripElement trip={tripEl} dispatcher={contextProperties.dispatcher} />
-            )}
-          </TripList>
-        </TripListContext.Provider>
+        <TripList tripList={trips} actions={tripContext.actions} />
       </div>
     </div>
   )

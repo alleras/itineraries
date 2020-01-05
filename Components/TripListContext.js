@@ -1,7 +1,8 @@
 import React from 'react'
 
 const TripListContext = React.createContext({
-    trips: []
+    trips: [],
+    legs: [],
 })
 
 const TripListConsumer = TripListContext.Consumer

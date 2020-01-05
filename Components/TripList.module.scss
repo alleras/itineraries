@@ -10,6 +10,41 @@
         background: grey;
     }*/
 }
+.timeInterval {
+    padding: 2.5rem 0;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    & > :first-child {
+        margin: 30% 0 0 0;
+    }
+
+    & > :last-child {
+        margin: 0 0 30% 0;
+    }
+    .bar {
+        content: '';
+        z-index: -1;
+        height: 100%;
+        width: 2px;
+        background: #33658A;
+        box-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    }
+    .time {
+        display: block;
+        text-transform: uppercase;
+        font-size: 1.1em;
+        color: #909090;
+        text-shadow: 0px 1px 2px rgb(230, 230, 230);
+    }
+}
+
+.tripSuperContainer {
+    display:grid;
+    grid-template-columns: 1fr 11fr;
+}
 
 .dayMarker {
     width: 100%;

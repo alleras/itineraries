@@ -16,22 +16,12 @@ class DateSelector extends React.Component {
             options: {
                 onChange: this.onChange,
                 ...this.props.config
-            },
-            date: null
+            }
         }
     }
 
     componentDidMount() {
         this.fpElement = flatpickr(this.datePicker.current, this.state.options)
-        this.updateDates()
-    }
-
-    onChange = () => {
-        this.updateDates()
-    }
-
-    updateDates = () => {
-        this.setState({date: this.fpElement.selectedDates[0]})    
     }
 
     render() {
@@ -41,8 +31,8 @@ class DateSelector extends React.Component {
             }}>
                 <i class="far fa-calendar-alt"></i>
 
-                <input ref={this.datePicker} onInput={this.onChange} className={styles.input} />
-                <DateDecorator date={this.state.date}>Select date</DateDecorator>
+                <input ref={this.datePicker} className={styles.input} />
+                <DateDecorator date={this.props.date}>Select date</DateDecorator>
             </div>
         )
     }
