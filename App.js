@@ -2,13 +2,10 @@ import React, {useState, useReducer, useEffect} from 'react'
 // Utils
 import {sampleTrips} from './config'
 import shortid from 'shortid'
-import nestedUpdate from './Util/nestedUpdate'
+import Map from './Components/Map'
 // Components
 import TripBox from './Components/TripSelectorComponents/TripBox'
 import TripList from './Components/TripList'
-import TripElement from './Components/TripElement'
-// Context
-import {TripListContext} from './Components/TripListContext'
 // CSS
 import './index.css'
 
@@ -110,22 +107,22 @@ export default () => {
   }
 
   return (
-    <div>
-      <div class='row'>
-        <iframe class='mapIframe' src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6696.514962166765!2d-80.04900887263476!3d32.94421082734722!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88fe63d0dc91ef21%3A0xbbb6e90c18e64c96!2s2150+Northwoods+Blvd%2C+North+Charleston%2C+SC+29406!5e0!3m2!1sen!2sus!4v1551045538438" allowfullscreen></iframe>
-      </div>
-      
-      <header class='row travel__header'>
-        <div class='container'>
-          <h3 class='travel__title'>Vacations in Venezuela</h3>
-          <div class='travel__title_subtext'>
-            <i class="far fa-clock"></i> 2 days, 4 hours
+    <div>      
+      <header className='row travel__header'>
+        <div className='container'>
+          <h3 className='travel__title'>Vacations in Venezuela</h3>
+          <div className='travel__title_subtext'>
+            <i className="far fa-clock"></i> 2 days, 4 hours
           </div>
         </div>
       </header>
+
+      <div className='row'>
+        <Map trips={trips}></Map>
+      </div>
       
-      <div class='row'>
-        <div class='container'>
+      <div className='row' style={{"marginTop": "-3em"}}>
+        <div className='container'>
           <TripBox 
           tripList={trips}
           processTrip={(tripInfo) => {
@@ -134,10 +131,7 @@ export default () => {
         </div>
       </div>
 
-      <div class='row'>
-      </div>
-
-      <div class='container'>
+      <div className='container'>
         <TripList tripList={trips} actions={tripContext.actions} />
       </div>
     </div>
