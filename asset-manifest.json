@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/itineraries/static/css/main.2f6a137f.chunk.css",
+    "main.css": "/itineraries/static/css/main.bb06acf6.chunk.css",
     "main.js": "/itineraries/static/js/main.de5fa830.chunk.js",
     "main.js.map": "/itineraries/static/js/main.de5fa830.chunk.js.map",
     "runtime-main.js": "/itineraries/static/js/runtime-main.3e05133c.js",
@@ -9,10 +9,10 @@
     "static/js/2.986e332d.chunk.js": "/itineraries/static/js/2.986e332d.chunk.js",
     "static/js/2.986e332d.chunk.js.map": "/itineraries/static/js/2.986e332d.chunk.js.map",
     "index.html": "/itineraries/index.html",
-    "precache-manifest.cb9ba1fc11ea3b8795095801f9393a21.js": "/itineraries/precache-manifest.cb9ba1fc11ea3b8795095801f9393a21.js",
+    "precache-manifest.e895526b4231f7ac02d03ca1bbf8e9c4.js": "/itineraries/precache-manifest.e895526b4231f7ac02d03ca1bbf8e9c4.js",
     "service-worker.js": "/itineraries/service-worker.js",
     "static/css/2.f85a5698.chunk.css.map": "/itineraries/static/css/2.f85a5698.chunk.css.map",
-    "static/css/main.2f6a137f.chunk.css.map": "/itineraries/static/css/main.2f6a137f.chunk.css.map",
+    "static/css/main.bb06acf6.chunk.css.map": "/itineraries/static/css/main.bb06acf6.chunk.css.map",
     "static/js/2.986e332d.chunk.js.LICENSE": "/itineraries/static/js/2.986e332d.chunk.js.LICENSE",
     "static/media/all.css": "/itineraries/static/media/fa-solid-900.f6121be5.woff2"
   },
@@ -20,7 +20,7 @@
     "static/js/runtime-main.3e05133c.js",
     "static/css/2.f85a5698.chunk.css",
     "static/js/2.986e332d.chunk.js",
-    "static/css/main.2f6a137f.chunk.css",
+    "static/css/main.bb06acf6.chunk.css",
     "static/js/main.de5fa830.chunk.js"
   ]
 }

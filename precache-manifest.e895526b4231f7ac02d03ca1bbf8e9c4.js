@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "ce31a073ee53a59af57e0d0ce2ceea51",
+    "revision": "9f149ef80baa4413094b9976bc453684",
     "url": "/itineraries/index.html"
   },
   {
@@ -8,8 +8,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/itineraries/static/css/2.f85a5698.chunk.css"
   },
   {
-    "revision": "c3d15a13bc089553e3a4",
-    "url": "/itineraries/static/css/main.2f6a137f.chunk.css"
+    "revision": "210d8aa74840891dc3f5",
+    "url": "/itineraries/static/css/main.bb06acf6.chunk.css"
   },
   {
     "revision": "8da846e7a9108144e6ac",
@@ -20,7 +20,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/itineraries/static/js/2.986e332d.chunk.js.LICENSE"
   },
   {
-    "revision": "c3d15a13bc089553e3a4",
+    "revision": "210d8aa74840891dc3f5",
     "url": "/itineraries/static/js/main.de5fa830.chunk.js"
   },
   {
