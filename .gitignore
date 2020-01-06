@@ -1,3 +1,5 @@
+# gh-pages Build Folder
+/build
 # Logs
 logs
 *.log
