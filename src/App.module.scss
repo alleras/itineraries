@@ -1,0 +1,33 @@
+.container {
+    width:100% !important;
+}
+
+@media (min-width: 750px) {
+    .container{
+        max-width: 900px !important;
+    }
+}
+
+.travelHeader {
+    width: 100%;
+    height: 6em;
+    background-color: #2E81C1;
+    padding: 1em 0 0 0;
+    margin: 0;
+    border: 1px solid #24567b;
+    border-width: 0 0 1px 0;
+    box-shadow: 0 4px 12px 0 rgba(0,0,0,.1);
+    color: #FFF;
+    z-index: 9999999;
+}
+
+.travelTitle {
+    text-shadow: #2c5470bd 2px 2px 5px;
+    margin-bottom: 0px;
+    
+    .subtext {
+        color: rgb(215, 237, 255);
+        margin-left: 1em;
+    }
+}
+

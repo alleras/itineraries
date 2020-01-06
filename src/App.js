@@ -7,7 +7,7 @@ import Map from './Components/Map'
 import TripBox from './Components/TripSelectorComponents/TripBox'
 import TripList from './Components/TripList'
 // CSS
-import './index.css'
+import style from './App.module.scss'
 
 var cloneDeep = require('lodash/cloneDeep')
 
@@ -108,10 +108,10 @@ export default () => {
 
   return (
     <div>      
-      <header className='row travel__header'>
-        <div className='container'>
-          <h3 className='travel__title'>Vacations in Venezuela</h3>
-          <div className='travel__title_subtext'>
+      <header className={`row ${style.travelHeader}`}>
+        <div className={`container ${style.container}`}>
+          <h3 className={style.travelTitle}>Vacations in Venezuela</h3>
+          <div className={style.subtext}>
             <i className="far fa-clock"></i> 2 days, 4 hours
           </div>
         </div>
@@ -122,7 +122,7 @@ export default () => {
       </div>
       
       <div className='row' style={{"marginTop": "-3em"}}>
-        <div className='container'>
+        <div className={`container ${style.container}`}>
           <TripBox 
           tripList={trips}
           processTrip={(tripInfo) => {
@@ -131,7 +131,7 @@ export default () => {
         </div>
       </div>
 
-      <div className='container'>
+      <div className={`container ${style.container}`}>
         <TripList tripList={trips} actions={tripContext.actions} />
       </div>
     </div>

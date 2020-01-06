@@ -112,7 +112,7 @@ class TripBox extends React.Component {
         let error = this.validateTrip(state)
 
         return(
-            <div className={`${style.box} shadowedBox`}>
+            <div className={`${style.box} ${style.shadowedBox}`}>
                 <ul className={style.tripTypeSelector}>
                     {/* TODO: Clean up the way the class is generated */}
                     {state.tripTypes.map(tripType => { // The list of trip types as defined in the state.
