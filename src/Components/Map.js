@@ -14,7 +14,7 @@ export default (props) => {
             container: mapContainer,
             style: 'mapbox://styles/mapbox/streets-v11',
             center: props.trips[0].departure.place.coordinates,
-            zoom: 4,
+            zoom: 5,
         });
     })
 
