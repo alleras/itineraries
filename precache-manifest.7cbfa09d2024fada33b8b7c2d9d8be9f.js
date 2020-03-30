@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "9f149ef80baa4413094b9976bc453684",
+    "revision": "e76f52c95d21b268e33491397d71759b",
     "url": "/itineraries/index.html"
   },
   {
-    "revision": "8da846e7a9108144e6ac",
+    "revision": "e94233e64927e2b78a22",
     "url": "/itineraries/static/css/2.f85a5698.chunk.css"
   },
   {
-    "revision": "210d8aa74840891dc3f5",
-    "url": "/itineraries/static/css/main.bb06acf6.chunk.css"
+    "revision": "f24ac82908931d913002",
+    "url": "/itineraries/static/css/main.c07469e0.chunk.css"
   },
   {
-    "revision": "8da846e7a9108144e6ac",
-    "url": "/itineraries/static/js/2.986e332d.chunk.js"
+    "revision": "e94233e64927e2b78a22",
+    "url": "/itineraries/static/js/2.d6770797.chunk.js"
   },
   {
     "revision": "01757cf3fef2850af2f099750ee93d6a",
-    "url": "/itineraries/static/js/2.986e332d.chunk.js.LICENSE"
+    "url": "/itineraries/static/js/2.d6770797.chunk.js.LICENSE"
   },
   {
-    "revision": "210d8aa74840891dc3f5",
-    "url": "/itineraries/static/js/main.de5fa830.chunk.js"
+    "revision": "f24ac82908931d913002",
+    "url": "/itineraries/static/js/main.b417be95.chunk.js"
   },
   {
     "revision": "7917aaf8a001d29edef9",
