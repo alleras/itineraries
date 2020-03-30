@@ -69,7 +69,7 @@ class TripBox extends React.Component {
             return false
         
         // Arrival shouldn't happen before departure  -- DONE
-        // Arrival and departure dates shouldn't overlap with any of the other trips
+        // TODO: Arrival and departure dates shouldn't overlap with any of the other trips
         // Departure and arrival places are required -- DONE
         // Departure and arrival dates are required -- DONE
 
@@ -77,15 +77,13 @@ class TripBox extends React.Component {
         let arrival = trip.arrival
         let errors = {}
         
-        errors.departurePlace = !departure.place ? 'A destination is required.' : ''
-        errors.arrivalPlace = !arrival.place ? 'An origin is required.' : ''
+        errors.departurePlace = !departure.place ? 'An origin is required.' : ''
+        errors.arrivalPlace = !arrival.place ? 'A destination is required.' : ''
         errors.departureDate = !departure.date ?  'Departure date is required.' : ''
+
         errors.general = 
-            (new Date(departure.date) > new Date(arrival.date) 
+            (!arrival.date == null && new Date(departure.date) > new Date(arrival.date)
             ? 'The arrival date shouldn\'t be set before departure.' : '')
-            ||
-            (!departure.place 
-            ? 'Test error' : '')
 
         // We check that all the error properties are empty strings, if they are,
         // the form is validated. 

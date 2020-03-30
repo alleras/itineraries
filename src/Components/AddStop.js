@@ -15,6 +15,9 @@ class AddStop extends React.Component {
     }
 
     handleUpdate = (stop) =>{
+        if(!stop)
+            return false
+        
         this.setState({toggleSearchBar: !this.state.toggleSearchBar})
         this.props.handleAdd(stop)
     }

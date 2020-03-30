@@ -15,13 +15,6 @@ const DayMarker = (props) => {
 }
 
 const TimeInterval = (props) => {
-    var addOne = false
-
-    if(props.arrival) {
-        let interval = props.arrival.getTime() - props.departure.getTime()
-        if (interval < 172800000 && props.arrival.getDate() === props.departure.getDate() + 1)
-            addOne = true
-    }
 
     return (
         <div class={style.timeInterval}>
@@ -30,7 +23,6 @@ const TimeInterval = (props) => {
             </div>
             <div class={style.bar}></div>
             <div class={style.time}>
-                {addOne ? <span class={style.addOne}>+1</span> : null} 
                 {props.arrival ? flatpickr.formatDate(props.arrival, 'h:i K') : <span style={{'text-transform': 'none'}}>No ETA</span> }
             </div>
         </div>
@@ -59,9 +51,6 @@ const TripList = (props) => {
                     <div class={style.tripSuperContainer}>
                         <TimeInterval departure={tripElement.departure.date} arrival={tripElement.arrival.date}/>
                         <TripElement trip={tripElement} actions={props.actions}>
-                            {/*<>
-                            Test
-                            </>*/}
                         </TripElement>
                     </div>
                 </>
@@ -71,7 +60,9 @@ const TripList = (props) => {
 
     return (
         <div class={style.tripTimeline}>
-            {generateList(props.tripList)}
+            {props.tripList.length > 0 ? 
+            generateList(props.tripList) 
+            : <>No legs have been entered</>}
         </div>
     )
 }
