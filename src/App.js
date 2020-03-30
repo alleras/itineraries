@@ -110,9 +110,10 @@ export default () => {
     <div>      
       <header className={`row ${style.travelHeader}`}>
         <div className={`container ${style.container}`}>
-          <h3 className={style.travelTitle}>Vacations in Venezuela</h3>
+          <h3 className={style.travelTitle}>Itinerary Creator</h3> 
+          <div className={style.creator}>by Agustin Lleras</div>
           <div className={style.subtext}>
-            <i className="far fa-clock"></i> 2 days, 4 hours
+            <i className="far fa-clock"></i> <b>Trip total:</b> To be determined
           </div>
         </div>
       </header>

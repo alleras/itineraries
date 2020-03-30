@@ -21,9 +21,14 @@
     z-index: 9999999;
 }
 
+.creator {
+    margin: 0 0 0 5px;
+    display: inline-block;
+}
 .travelTitle {
     text-shadow: #2c5470bd 2px 2px 5px;
     margin-bottom: 0px;
+    display:inline-block;
     
     .subtext {
         color: rgb(215, 237, 255);
