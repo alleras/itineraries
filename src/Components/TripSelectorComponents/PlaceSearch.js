@@ -67,7 +67,7 @@ class PlaceSearch extends React.Component {
   // FIXME: Change update the city when selectedCity changes, not only when it's submitted.
   submitCity = (city) => {
     this.props.update(city)
-    this.setState({selectedCity: city.placeName, cityList: null, searchTerm: null})
+    this.setState({selectedCity: (city ? city.placeName : null), cityList: null, searchTerm: null})
   }
 
   handleClick = (e) => {
@@ -79,6 +79,7 @@ class PlaceSearch extends React.Component {
     else if(this.node.contains(e.target)){
       // Clear the search box and focus it.
       this.setState({selectedCity: null})
+      this.submitCity(null)
       this.inputRef.focus()
       return
     }
